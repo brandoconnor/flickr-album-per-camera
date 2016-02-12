@@ -7,6 +7,7 @@ This is a dead simple script that sorts a user's flickr photos into an album of 
 This project was written because Flickr's organize interface has no option to sort and categorize photos by camera type. Chromecast now has the ability when idling to cycle through all photos of a flickr album. I wanted to cycle through only those photos taken with DSLR cameras so organizing by camera source (via EXIF data) was my only option. Poof! This script is born.
 
 ## Installation
+Use of this script assumes you have a flickr account, photos to be organized, and have [requested a noncommercial API key](https://www.flickr.com/services/apps/create/noncommercial/?).
 
 ```
 > mkvirtualenv flickr-album-per-camera
