@@ -68,12 +68,13 @@ def main(args):
                     new_set = flickr.photosets.create(title=camera_name,
                                                       primary_photo_id=photo_id,
                                                       description='All photos taken behind a %s' % camera_name)
-                    album_dict[camera_name] = new_set['photoset']['id']
+                    album_dict[camera_name] = {new_set['photoset']['id'] : [photo_id]}
                     continue
                 elif photo_id not in [p for p in album_dict[camera_name].values()[0]]:
                     # if this photo is not in the appropriate album, add it
                     print('Adding photo to camera album.')
                     flickr.photosets.addPhoto(photoset_id=album_dict[camera_name].keys()[0], photo_id=photo_id)
+                    album_dict[camera_name].values()[0].append(photo_id)
                 else:
                     print('Photo is already in the appropriate set')
                     continue
