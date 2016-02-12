@@ -4,7 +4,7 @@ This is a dead simple script that sorts a user's flickr photos into an album of 
 
 ## Motivation
 
-This project was written because Flickr's organize interface has no option to sort and categorize photos by camera type. I wanted chromecast to cycle through only photos of high quality through nicer cameras and the only way to do this was by organizing photos into an album per camera source.
+This project was written because Flickr's organize interface has no option to sort and categorize photos by camera type. Chromecast now has the ability when idling to cycle through all photos of a flickr album. I wanted to cycle through only those photos taken with DSLR cameras so organizing by camera source (via EXIF data) was my only option. Poof! This script is born.
 
 ## Installation
 
@@ -28,7 +28,6 @@ optional arguments:
 
 ## Bugs / Development / Contributing
 * Report issues/questions/feature requests on in the [Issues](https://github.com/brandoconnor/flickr-album-per-camera/issues) section.
-* Feel free to ask questions via email.
 
 Pull requests are welcome!
 Ideally create a topic branch for every separate change you make.
@@ -36,7 +35,6 @@ For example:
 
 1. Fork the repo
 2. Create your feature branch (`git checkout -b my-new-feature`)
-3. If possible, write some tests.
 4. Commit your awesome changes (`git commit -am 'Added some feature'`)
 5. Push to the branch (`git push origin my-new-feature`)
 6. Create a new Pull Request and tell us about your changes.
@@ -51,9 +49,3 @@ Unless required by applicable law or agreed to in writing, software distributed 
 distributed on an “AS IS” BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
 implied. See the License for the specific language governing permissions and limitations under the
 License.
-
-
-
-## License
-
-A short snippet describing the license (MIT, Apache, etc.)
