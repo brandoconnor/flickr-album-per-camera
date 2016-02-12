@@ -1,7 +1,10 @@
 #!/usr/bin/env python
-"""A simple script to organize photos into albums named by their camera source.
+
+"""
+A simple script to organize photos into albums named by their camera source.
 For me, this is useful for cycling through only high quality photos on my TV
-hooked up to a chromecast."""
+hooked up to a chromecast.
+"""
 
 import flickrapi
 import argparse
@@ -25,10 +28,13 @@ def get_photoset_dict(flickr, user_id):
     print('Gathering dictionary of all photos in all photosets...')
     init_photoset = flickr.photosets.getList(user_id=user_id)
     photoset_dict = dict()
+    set_num = 1
     for set_page in range(1, init_photoset['photosets']['pages'] + 1):
         photoset = flickr.photosets.getList(user_id=user_id, page=set_page)
         for pset in photoset['photosets']['photoset']:
-            # a_dict = {'thing': {'this': ['value', 'list']} }
+            print('processing photoset %s of %s' % (set_num, init_photoset['photosets']['total']))
+            set_num += 1
+            # a_dict = {'thing': {'this': ['list, 'values']} }
             photoset_dict[pset['title']['_content']] = {pset['id']: []}
             init_photoset_object = flickr.photosets.getPhotos(photoset_id=pset['id'])
             for photoset_page in range(1, init_photoset_object['photoset']['pages'] + 1):
@@ -44,8 +50,11 @@ def main(args):
     album_dict = get_photoset_dict(flickr, user_id)
     init_photos = flickr.people.getPhotos(user_id=user_id)
     total = init_photos['photos']['total']
-    photo_num = 0
-    for page_num in range(1, init_photos['photos']['pages'] + 1):
+    photo_num = args.initial_photo / 100 * 100 # TODO ensure less than total photos
+    if photo_num > total:
+        raise('Trying to start at photo %s but only %s total. Exiting.' % (args.initial_photo, total))
+    init_page = args.initial_photo / 100 + 1 # 100 photos per page
+    for page_num in range(init_page, init_photos['photos']['pages'] + 1):
         photo_batch = flickr.people.getPhotos(user_id=user_id, page=page_num)
         for photo in photo_batch['photos']['photo']:
             photo_num += 1
@@ -76,7 +85,9 @@ if __name__ in '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--dry_run', action='store_true',
                         default=False, help="Verbose minus action. Default=False")
-    parser.add_argument('-k', '--api_key', help='flickr API key')
-    parser.add_argument('-s', '--api_secret', help='flickr API secret')
-    parser.add_argument('-u', '--username', help='your flickr username')
+    parser.add_argument('-i', '--initial_photo', help='approximate initial photo. Rounds down to nearest hundred',
+                         type=int, default=0)
+    parser.add_argument('-k', '--api_key', help='flickr API key', required=True)
+    parser.add_argument('-s', '--api_secret', help='flickr API secret', required=True)
+    parser.add_argument('-u', '--username', help='your flickr username', required=True)
     exit(main(parser.parse_args()))
